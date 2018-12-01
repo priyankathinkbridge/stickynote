@@ -12,7 +12,17 @@ angular.module('Sticky').service('$tcStickyLocalStorage', function ($q, stickyCo
 	function getNotes() {
 		return $q.resolve(getItem());
 	}
-
+	var promise = $q(function(resolve, reject) {
+		if (work === "resolve") {
+			resolve('response 1!');
+		} else {
+			reject('Oops... something went wrong');
+		}
+	  }); 
+	  promise.then(function(data) {
+		alert(data)  
+	
+	  }) 
 	function setNotes(notes) {
 		return $q.resolve(setItem(notes));
 	}

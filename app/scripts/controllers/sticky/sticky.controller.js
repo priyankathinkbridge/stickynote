@@ -1,5 +1,6 @@
 angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout, $interval, $tcSticky) {
 	$scope.isEdit = false;
+	$scope.status=[];
 	$scope.NotesData = [];
 	$scope.noteInEdit = {};
 	$scope.showUpButton = false;
@@ -57,16 +58,15 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 			$scope.noteInEdit.noteId = 'note' + Math.random() + Date.now();
 		}
 
-		$tcSticky.setNote($scope.noteInEdit).then(function (notonTable) {
-			console.log(notonTable);
+		$tcSticky.setNote($scope.noteInEdit).then(function (status) {
+			$scope.status=status;
 			var index = $scope.NotesData.findIndex(getNoteIndex);
-
+			$scope.tmpid=$scope.noteInEdit.noteId;
 			if (~index)
 				{$scope.NotesData[index] = $scope.noteInEdit;}
 
 			else
 				{$scope.NotesData = $scope.NotesData.concat($scope.noteInEdit);}
-
 			function getNoteIndex(arrayNote) {
 				return arrayNote.noteId == $scope.noteInEdit.noteId;
 			}
@@ -75,7 +75,9 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 			$scope.noteInEdit = {};
 		}).catch()
 	};
-
+	$scope.myfuntion=function(note){
+		//console.log("dsjhkjhjkdfs");
+	}
 	function toggleNotes(bool) {
 		if(angular.isDefined(bool))
 			$('sticky-note').toggleClass('collapsed', bool);
@@ -121,8 +123,25 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 			scrolling && $interval.cancel(scrolling);
 		}
 	};
-
+	$scope.reSink=function(note){
+		
+	}
 	$scope.toggleNote = function (note) {
+		console.log(note.noteId);
+		if(note.noteId==$scope.tmpid){
+			$scope.onLocal=$scope.status[0];
+					if($scope.status[1]==true){
+						$scope.onTable=true;
+						$scope.notonTable=false;}
+					else{
+						$scope.notonTable=true;
+						$scope.onTable=false;}					
+		}
+		else{
+			$scope.onTable=false;
+			$scope.onLocal=false;
+			$scope.notonTable=false;
+		}
 		note.isShow = !note.isShow;
 	};
 
@@ -150,6 +169,7 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 				$scope.noteVisible = !$('sticky-note').hasClass('collapsed');
 				$scope.NotesData.length && $scope.NotesData.forEach(function (value) {
 					value.isShow = false;
+					
 				});
 			});
 	}

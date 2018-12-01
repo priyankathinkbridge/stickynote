@@ -28,16 +28,25 @@ angular.module('Sticky').service('$tcSticky', function ($q, stickyConfig, $tcSti
 	}
 
 	function setNote(note) {
+		var onLocal;
+		var onTable;
 		var deferred = $q.defer();
-		var promises = [$tcStickyLocalStorage.setNote(note)];
+		var promises = [$tcStickyLocalStorage.setNote(note).then(function(data){
+			 onLocal=true;
+			deferred.resolve(data); return onLocal}).catch(function(error){
+				 onLocal=false;
+				//deferred.reject(error);
+				return onLocal;
+			})];
 		tableStorageEnabled && promises.push($tcStickyTableStorage.setNote(note)
 		.then(function(data){
+			onTable=true;
+			return onTable;
 			deferred.resolve(data);
 		}).catch(function(error){
-			var notonTable=true;
-			return notonTable;
-			deferred.reject(notonTable);
-			console.log(error);
+			 onTable=false;
+			return onTable;
+			//deferred.reject(onTable);
 		}));
 		return $q.all(promises);
 	}

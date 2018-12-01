@@ -49,8 +49,8 @@
 							<i class="fa fa-plus"></i>
 					</button>
 					<button type="button" class="btn btn-xs btn-default" id="scroll-up-button" ng-show="showUpButton" ng-mousedown="startScroll(false)" ng-mouseup="stopScroll()"><i class="fa fa-chevron-up"></i></button>
-					<div id="notes-wrapper">
-							<div class="note {{note.color}}" ng-attr-id="{{note.noteId}}" ng-class="{'expanded' : note.isShow}" ng-repeat="note in NotesData">
+					<div id="notes-wrapper">{{myfuntion(note);}}
+							<div class="note {{note.color}}" ng-attr-id="{{note.noteId}}" ng-class="{'expanded' : note.isShow}"  ng-repeat="note in NotesData track by $index ">
 									<div class="note-date" ng-click="toggleNote(note)">
 											<span>{{note.date | date:"MMM"}}</span>
 											<span>{{note.date | date:"dd"}}</span>
@@ -67,6 +67,12 @@
 											</header>
 											<article class="content">
 													{{note.NoteSummary}}
+													<footer>
+														<span ng-if="onLocal" class="glyphicon glyphicon-ok"></span>
+														<span ng-if="onTable" class="glyphicon glyphicon-ok"></span>
+														<span ng-if="notonTable" class="glyphicon glyphicon-remove"></span>
+														<span ng-if="notonTable" ng-click="reSink(note)" class="btn glyphicon glyphicon-repeat" ></span>
+													</footer>
 											</article>
 									</div>
 							</div>
