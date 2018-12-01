@@ -76,7 +76,8 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 		}).catch()
 	};
 	$scope.myfuntion=function(note){
-		//console.log("dsjhkjhjkdfs");
+		//console.log(note.noteId);
+		
 	}
 	function toggleNotes(bool) {
 		if(angular.isDefined(bool))
@@ -124,7 +125,23 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 		}
 	};
 	$scope.reSink=function(note){
-		
+		note.isShow = !note.isShow;
+		$tcSticky.setNote(note).then(function (status) {
+			$scope.status=status;
+			var index = $scope.NotesData.findIndex(getNoteIndex);
+			$scope.tmpid=note.noteId;
+			if (~index)
+				{$scope.NotesData[index] = note.noteInEdit;}
+
+			else
+				{$scope.NotesData = $scope.NotesData.concat($scope.note);}
+			function getNoteIndex(arrayNote) {
+				return arrayNote.noteId == $scope.note.noteId;
+			}
+
+			addNoteModal.modal('hide');
+			$scope.noteInEdit = {};
+		}).catch()
 	}
 	$scope.toggleNote = function (note) {
 		console.log(note.noteId);

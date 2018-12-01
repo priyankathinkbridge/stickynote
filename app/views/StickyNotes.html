@@ -48,8 +48,8 @@
 					<button type="button" id="add-note-modal-launcher" class="btn btn-circle btn-xs btn-success" data-toggle="modal" data-target="#add-note-modal" ng-click="setAddMode()">
 							<i class="fa fa-plus"></i>
 					</button>
-					<button type="button" class="btn btn-xs btn-default" id="scroll-up-button" ng-show="showUpButton" ng-mousedown="startScroll(false)" ng-mouseup="stopScroll()"><i class="fa fa-chevron-up"></i></button>
-					<div id="notes-wrapper">{{myfuntion(note);}}
+					<button type="button" {{myfuntion(note)}} class="btn btn-xs btn-default" id="scroll-up-button" ng-show="showUpButton" ng-mousedown="startScroll(false)" ng-mouseup="stopScroll()"><i class="fa fa-chevron-up"></i></button>
+					<div id="notes-wrapper">
 							<div class="note {{note.color}}" ng-attr-id="{{note.noteId}}" ng-class="{'expanded' : note.isShow}"  ng-repeat="note in NotesData track by $index ">
 									<div class="note-date" ng-click="toggleNote(note)">
 											<span>{{note.date | date:"MMM"}}</span>
