@@ -1,0 +1,77 @@
+<div>
+
+			<!-- NOTES TOGGLER -->
+
+			<button type="button" class="btn btn-xs btn-info" id="toggle-notes" ng-click="toggleNotes()">
+					<i class="fa fa-chevron-up"></i>
+					<span>Notes</span>
+			</button>
+
+			<!-- ADD NOTE MODAL -->
+
+			<div id="add-note-modal" class="modal fade">
+					<div class="modal-dialog modal-sm">
+							<div class="modal-content">
+
+									<div class="modal-header">
+											<span class="close" data-dismiss="modal">
+													<i class="fa fa-times"></i>
+											</span>
+											<h3 class="modal-title">{{isEdit ? 'Edit' : 'Add'}} Note</h3>
+
+									</div>
+									<div class="modal-body">
+											<h4>Title</h4>
+											<input id="noteTitle" type="text" class="form-control {{noteInEdit.color}}" ng-model="noteInEdit.NoteTitle" autofocus />
+											<h4>Description</h4>
+											<textarea rows="4" id="noteSummary" class="form-control {{noteInEdit.color}}" ng-model="noteInEdit.NoteSummary"></textarea>
+									</div>
+
+									<div class="modal-footer">
+											<div class="color-options pull-left">
+													<span class="color-option yellow" ng-click="setColor('yellow')"></span>
+													<span class="color-option green" ng-click="setColor('green')"></span>
+													<span class="color-option blue" ng-click="setColor('blue')"></span>
+													<span class="color-option purple" ng-click="setColor('purple')"></span>
+													<span class="color-option pink" ng-click="setColor('pink')"></span>
+											</div>
+											<a id="add-note" class="btn btn-primary btn-xs pull-right" ng-disabled="!noteInEdit.NoteSummary.length || !noteInEdit.NoteTitle.length" ng-click="saveNote()">{{isEdit ? 'Save' : 'Add'}}</a>
+									</div>
+
+							</div>
+					</div>
+			</div>
+
+			<!-- NOTES STUFF -->
+
+			<div id="sticky-notes-wrapper">
+					<button type="button" id="add-note-modal-launcher" class="btn btn-circle btn-xs btn-success" data-toggle="modal" data-target="#add-note-modal" ng-click="setAddMode()">
+							<i class="fa fa-plus"></i>
+					</button>
+					<button type="button" class="btn btn-xs btn-default" id="scroll-up-button" ng-show="showUpButton" ng-mousedown="startScroll(false)" ng-mouseup="stopScroll()"><i class="fa fa-chevron-up"></i></button>
+					<div id="notes-wrapper">
+							<div class="note {{note.color}}" ng-attr-id="{{note.noteId}}" ng-class="{'expanded' : note.isShow}" ng-repeat="note in NotesData">
+									<div class="note-date" ng-click="toggleNote(note)">
+											<span>{{note.date | date:"MMM"}}</span>
+											<span>{{note.date | date:"dd"}}</span>
+											<span>{{note.date | date:"yyyy"}}</span>
+									</div>
+									<div class="note-body">
+											<header>
+													<span class="title">{{note.NoteTitle}}</span>
+													<div class="tools pull-right">
+															<span title="Edit" data-toggle="modal" data-target="#add-note-modal" ng-click="setEditMode(note)"><i class="fa fa-edit"></i></span>
+															<span title="Minimize" ng-click="toggleNote(note)">_</span>
+															<span title="Delete" ng-click="deleteNote(note)"><i class="fa fa-trash"></i></span>
+													</div>
+											</header>
+											<article class="content">
+													{{note.NoteSummary}}
+											</article>
+									</div>
+							</div>
+					</div>
+					<button type="button" class="btn btn-xs btn-default" id="scroll-down-button" ng-show="showDownButton" ng-mousedown="startScroll(true)" ng-mouseup="stopScroll()"><i class="fa fa-chevron-down"></i></button>
+			</div>
+
+	</div>

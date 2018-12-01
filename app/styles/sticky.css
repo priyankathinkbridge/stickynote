@@ -1,0 +1,297 @@
+/* ADD NOTES MODAL */
+
+sticky-note #add-note-modal
+{
+  text-align : center;
+}
+
+sticky-note #add-note-modal:before
+{
+  content : '';
+  display : inline-block;
+  height : 100%;
+  vertical-align : middle;
+  margin-right : -4px;
+}
+
+sticky-note #add-note-modal .modal-dialog
+{
+  display : inline-block;
+  text-align : left;
+  vertical-align : middle;
+}
+
+sticky-note #add-note-modal .modal-header,
+sticky-note #add-note-modal .modal-footer
+{
+  padding : .75em;
+}
+
+sticky-note #add-note-modal .modal-body
+{
+  padding : .5em;
+}
+
+sticky-note #add-note-modal .modal-body h4
+{
+  margin : 5px 0;
+}
+
+sticky-note #add-note-modal .modal-body .form-control
+{
+  outline: 0;
+  border : 0;
+}
+
+sticky-note #add-note-modal .modal-body input.form-control
+{
+  margin-bottom : 10px;
+}
+
+sticky-note #add-note-modal .modal-body textarea.form-control
+{
+  resize : none;
+}
+
+sticky-note #add-note-modal .color-option
+{
+  display : inline-block;
+  margin-right : 5px;
+  border-radius : 50%;
+  cursor : pointer;
+  padding : 10px;
+  opacity: .75;
+  box-shadow : 0 0 0 1px rgba(0,0,0,.2) inset;
+}
+
+sticky-note #add-note-modal .color-option.active
+{
+  box-shadow : 0 0 0 2px rgba(0,0,0,.2) inset;
+}
+
+/* TOGGLE NOTES BUTTON */
+
+sticky-note #toggle-notes
+{
+    position : fixed;
+    right : 0;
+    top : 10vh;
+    font-size : 10px;
+    transform : rotateZ(270deg);
+    z-index : 999;
+    transform-origin : 100% 100%;
+    box-shadow : 0 0 10px grey;
+}
+
+/* NOTES WRAPPER */
+
+sticky-note #sticky-notes-wrapper
+{
+  position : fixed;
+  right : 0;
+  top : 25vh;
+  z-index: 999;
+  pointer-events: none;
+  transition : transform .5s ease-in-out;
+}
+
+sticky-note #notes-wrapper
+{
+  max-height : 50vh;
+  overflow-y : hidden;
+  overflow-x : hidden;
+}
+
+#scroll-up-button,
+#scroll-down-button,
+sticky-note #add-note-modal-launcher
+{
+  display : block;
+  pointer-events: auto;
+  margin : 7px 7px 7px auto;
+  transition : opacity .5s;
+  box-shadow : 0 0 10px black;
+}
+
+sticky-note #add-note-modal-launcher
+{
+  margin : 0 5px 12px auto;
+}
+
+#scroll-up-button.ng-hide,
+#scroll-down-button.ng-hide
+{
+  display : block !important;
+  opacity : 0;
+  pointer-events: none;
+}
+
+/* COLLAPSED STYLES */
+
+sticky-note.collapsed #sticky-notes-wrapper
+{
+  transform : translateX(100px);
+}
+
+/* NOTES STUFF */
+
+sticky-note .note .note-body header .tools span,
+sticky-note .note .note-date
+{
+  cursor : pointer;
+}
+
+sticky-note .note
+{
+  font-size : 0;
+  transform : translateX(200px);
+  transition : all .5s ease-in-out;
+  margin-bottom: 5px;
+  pointer-events: auto;
+}
+
+sticky-note .note:last-child
+{
+  margin-bottom: 0;
+}
+
+sticky-note .note.expanded
+{
+  transform : translateX(0);
+}
+
+sticky-note .note .note-date,
+sticky-note .note .note-body
+{
+  display : inline-block;
+  vertical-align : top;
+}
+
+sticky-note .note .note-date
+{
+  width : 35px;
+  font-size : 11px;
+  padding : .35em;
+  text-align : center;
+  font-weight : 800;
+  transition : opacity .5s ease-in-out;
+}
+
+sticky-note .note .note-date span
+{
+  display : block;
+}
+
+sticky-note .note .note-body
+{
+  width : 200px;
+  font-size : 14px;
+  font-family : Helvetica, "Helvetica Neue", Arial, "Roboto", sans-serif;
+  max-height : 0;
+  overflow : hidden;
+  transition : max-height .5s .2s;
+}
+
+sticky-note .note.expanded .note-body
+{
+  max-height : 300px;
+  transition : max-height 1s;
+}
+
+sticky-note .note .note-body header
+{
+  padding : .35em;
+}
+
+sticky-note .note .note-body header .title,
+sticky-note .note .note-body header .tools
+{
+  display : inline-block;
+}
+
+sticky-note .note .note-body header .title
+{
+  font-weight: bold;
+  font-size : 13px;
+}
+
+sticky-note .note .note-body header .tools .fa-edit
+{
+  vertical-align: bottom;
+}
+
+sticky-note .note .note-body .content
+{
+  padding : .35em;
+  height : 5em;
+  overflow-y : auto;
+  overflow-x : hidden;
+  word-wrap : break-word;
+}
+
+/* NOTES THEME */
+
+sticky-note .note.yellow .note-date,
+sticky-note .note.yellow .note-body header,
+sticky-note #add-note-modal .modal-body .form-control.yellow
+{
+  background : rgb(249,243,161);
+}
+
+sticky-note .note.yellow .note-body .content,
+sticky-note #add-note-modal .color-option.yellow
+{
+  background : rgb(250,246,189);
+}
+
+sticky-note .note.green .note-date,
+sticky-note .note.green .note-body header,
+sticky-note #add-note-modal .modal-body .form-control.green
+{
+  background : rgb(184,223,169);
+}
+
+sticky-note .note.green .note-body .content,
+sticky-note #add-note-modal .color-option.green
+{
+  background : rgb(196,226,184);
+}
+
+sticky-note .note.blue .note-date,
+sticky-note .note.blue .note-body header,
+sticky-note #add-note-modal .modal-body .form-control.blue
+{
+  background : rgb(160,221,236);
+}
+
+sticky-note .note.blue .note-body .content,
+sticky-note #add-note-modal .color-option.blue
+{
+  background : rgb(175,224,236);
+}
+
+sticky-note .note.purple .note-date,
+sticky-note .note.purple .note-body header,
+sticky-note #add-note-modal .modal-body .form-control.purple
+{
+  background : rgb(200,179,218);
+}
+
+sticky-note .note.purple .note-body .content,
+sticky-note #add-note-modal .color-option.purple
+{
+  background : rgb(207,188,220);
+}
+
+sticky-note .note.pink .note-date,
+sticky-note .note.pink .note-body header,
+sticky-note #add-note-modal .modal-body .form-control.pink
+{
+  background : rgb(243,184,197);
+}
+
+sticky-note .note.pink .note-body .content,
+sticky-note #add-note-modal .color-option.pink
+{
+  background : rgb(244,192,203);
+}
