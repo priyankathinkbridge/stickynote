@@ -35,7 +35,6 @@ angular.module('Sticky').service('$tcSticky', function ($q, stickyConfig, $tcSti
 			 onLocal=true;
 			deferred.resolve(data); return onLocal}).catch(function(error){
 				 onLocal=false;
-				//deferred.reject(error);
 				return onLocal;
 			})];
 		tableStorageEnabled && promises.push($tcStickyTableStorage.setNote(note)
@@ -43,14 +42,12 @@ angular.module('Sticky').service('$tcSticky', function ($q, stickyConfig, $tcSti
 			onTable=true;
 			return onTable;
 			deferred.resolve(data);
-		}).catch(function(error){
+		}).catch(function(){
 			 onTable=false;
 			return onTable;
-			//deferred.reject(onTable);
 		}));
 		return $q.all(promises);
 	}
-
 	function removeNote(note) {
 		var promises = [$tcStickyLocalStorage.removeNote(note)];
 		tableStorageEnabled && promises.push($tcStickyTableStorage.removeNote(note));

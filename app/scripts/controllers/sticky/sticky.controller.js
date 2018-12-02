@@ -1,7 +1,10 @@
 angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout, $interval, $tcSticky) {
 	$scope.isEdit = false;
-	$scope.status=[];
+//	$scope.status=[];
 	$scope.NotesData = [];
+	$scope.notesId=[];
+	$scope.notesTableId=[];
+	$scope.notesnotTableId=[];
 	$scope.noteInEdit = {};
 	$scope.showUpButton = false;
 	$scope.showDownButton = false;
@@ -12,6 +15,8 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 	var addNoteModal = $('sticky-note #add-note-modal');
 	var notesWrapper = $('sticky-note #notes-wrapper');
 	var temp, scrolling, scrollVar;
+	var i=0;
+	var k=0;
 
 	$scope.$watch('NotesData', function (n) {
 		n.length && $timeout(buttonShowHide, 1000);
@@ -56,12 +61,21 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 			$scope.noteInEdit.isShow = false;
 			$scope.noteInEdit.color = $scope.noteInEdit.color || 'yellow';
 			$scope.noteInEdit.noteId = 'note' + Math.random() + Date.now();
+			//$scope.notesId[i]=$scope.noteInEdit.noteId;
+			//i++;
 		}
-
 		$tcSticky.setNote($scope.noteInEdit).then(function (status) {
-			$scope.status=status;
+			//$scope.status=status;
+			$scope.onLocal=status[0];
 			var index = $scope.NotesData.findIndex(getNoteIndex);
-			$scope.tmpid=$scope.noteInEdit.noteId;
+			if(status[1]==true){
+				$scope.notesTableId[i]=$scope.noteInEdit.noteId;
+				i++;
+			}
+			else{
+				$scope.notesnotTableId[k]=$scope.noteInEdit.noteId;
+				k++;
+			}
 			if (~index)
 				{$scope.NotesData[index] = $scope.noteInEdit;}
 
@@ -126,42 +140,34 @@ angular.module('Sticky').controller('stickyNoteCtrl', function ($scope, $timeout
 	};
 	$scope.reSink=function(note){
 		note.isShow = !note.isShow;
-		$tcSticky.setNote(note).then(function (status) {
-			$scope.status=status;
-			var index = $scope.NotesData.findIndex(getNoteIndex);
-			$scope.tmpid=note.noteId;
-			if (~index)
-				{$scope.NotesData[index] = note.noteInEdit;}
-
-			else
-				{$scope.NotesData = $scope.NotesData.concat($scope.note);}
-			function getNoteIndex(arrayNote) {
-				return arrayNote.noteId == $scope.note.noteId;
+		$tcSticky.setNote($scope.noteInEdit).then(function (status) {
+			$scope.onLocal=status[0];
+			if(status[1]==true){
+				var itemindex=$scope.notesnotTableId.indexOf(note.noteId);
+				delete $scope.notesnotTableId[itemindex];
+				$scope.notesTableId.push(note.noteId);
 			}
-
-			addNoteModal.modal('hide');
-			$scope.noteInEdit = {};
+			else{
+			}
 		}).catch()
 	}
-	$scope.toggleNote = function (note) {
-		console.log(note.noteId);
-		if(note.noteId==$scope.tmpid){
-			$scope.onLocal=$scope.status[0];
-					if($scope.status[1]==true){
-						$scope.onTable=true;
-						$scope.notonTable=false;}
-					else{
-						$scope.notonTable=true;
-						$scope.onTable=false;}					
+	$scope.toggleNote=function(note){
+		var j;
+		for(j=0;j<$scope.notesTableId.length;j++){
+			if(note.noteId==$scope.notesTableId[j]){
+				$scope.onTable=true;
+				$scope.notonTable=false;
+				break;
+			}
 		}
-		else{
-			$scope.onTable=false;
-			$scope.onLocal=false;
-			$scope.notonTable=false;
+		for(j=0;j<$scope.notesnotTableId.length;j++){
+			if(note.noteId==$scope.notesnotTableId[j]){
+				$scope.onTable=false;
+				$scope.notonTable=true;
+			}
 		}
 		note.isShow = !note.isShow;
-	};
-
+	}
 	$scope.scroll = function (delta, direction) {
 		scrollVar = notesWrapper.scrollTop();
 		scrollVar = direction ? scrollVar + delta : scrollVar - delta;
